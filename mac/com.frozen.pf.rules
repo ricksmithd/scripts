@@ -7,7 +7,7 @@
 
 
 # Scrub incoming packets
-*scrub in all no-df
+#scrub in all no-df
 
 block all
 
@@ -15,11 +15,6 @@ block all
 pass out quick inet proto udp from any port 67 to any port 68 
 pass in quick inet proto udp from 192.169.10.1 port 68 to any port 67
 
-#
-# Custom rules anchor
-#
 
-pass out quick inet proto udp from any to 192.168.10.1 port 53 
-pass out quick inet proto tcp from any to any port {80 443} 
-
-anchor "custom"
+pass out quick on en3 inet proto udp from any to 192.168.10.1 port 53 
+pass out quick on en3 inet proto tcp from any to any port { 80 443 }

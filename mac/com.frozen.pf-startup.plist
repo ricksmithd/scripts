@@ -5,7 +5,7 @@
 	<key>Disabled</key>
 	<false/>
 	<key>Label</key>
-	<string>com.apple.pfctl</string>
+	<string>com.frozen.pfctl</string>
 	<key>WorkingDirectory</key>
 	<string>/var/run</string>
 	<key>Program</key>
