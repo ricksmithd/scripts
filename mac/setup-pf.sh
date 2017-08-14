@@ -3,6 +3,9 @@ if [ "$EUID" -ne 0 ]
   exit
 fi
 
+chmod -R +x *.sh
+chmod -R +x *.plist
+
 echo "Removing Apple's PF rules and replacing with frozen.pf.rules"
 mv /etc/pf.anchors/com.apple ~/Desktop/com.apple.anchors.backup
 cp com.frozen.pf.rules /etc/pf.anchors/com.frozen.pf.rules
