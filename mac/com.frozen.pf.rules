@@ -7,30 +7,19 @@
 
 
 # Scrub incoming packets
-scrub in all no-df
+*scrub in all no-df
 
 block all
 
 # Allow DHCP
-pass out quick inet proto udp from any port 67 to any port 68
-
-# Allow icmp from LAN
-#pass in log proto icmp from <lan_safe>
-
-# Allow everything from admin workstations
-# pass in log quick from <admin_workstations>
-
-# Allow everything from admin VPN connections
-# pass in log quick from $admin_vpns
-
-# Allow all from trusted servers
-# pass in log quick from $trusted_servers
+pass out quick inet proto udp from any port 67 to any port 68 
+pass in quick inet proto udp from 192.169.10.1 port 68 to any port 67
 
 #
 # Custom rules anchor
 #
 
-pass out quick inet proto udp from any to {192.168.10.1} port 53 keep-state
-pass out quick inet proto tcp from any to any port {80,443} keep-state 
+pass out quick inet proto udp from any to 192.168.10.1 port 53 
+pass out quick inet proto tcp from any to any port {80 443} 
 
 anchor "custom"
