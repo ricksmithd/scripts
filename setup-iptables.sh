@@ -33,12 +33,12 @@ function webrules {
   #output chain
   iptables -A OUTPUT  -p udp -o ${primary_interface} -d ${dns_ip} --dport 53 -j ACCEPT
   iptables -A OUTPUT  -p udp -o ${primary_interface} -d ${router_ip} --dport 67 -m conntrack -j ACCEPT
-  iptables -A OUTPUT  -p tcp -o ${primary_interface} -m multiport --dports 80,443 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+  iptables -A OUTPUT  -p tcp -o ${primary_interface} -m multiport --dports 80,443,4444 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
 
   #forward chain
   iptables -A FORWARD -i lo -j ACCEPT
   #input chain
-  iptables -A INPUT -p tcp -i ${primary_interface} -m multiport --sports 80,443 -m conntrack --ctstate ESTABLISHED -j ACCEPT
+  iptables -A INPUT -p tcp -i ${primary_interface} -m multiport --sports 80,443,4444 -m conntrack --ctstate ESTABLISHED -j ACCEPT
   iptables -A INPUT -p udp -i ${primary_interface} -s ${dns_ip} --sport 53 -j ACCEPT
   iptables -A INPUT -p udp -i ${primary_interface} -s ${router_ip} --sport 67 -j ACCEPT
 
