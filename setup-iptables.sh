@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 
 echo "Please choose your primary web interface. Here is a list of them:"
 echo "$(ifconfig)"

